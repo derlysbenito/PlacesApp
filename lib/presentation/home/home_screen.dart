@@ -81,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
           if (vm.loading) {
             return Center(child: CircularProgressIndicator());
           }
-
           if (vm.error != null) {
             return Center(
               child: Column(
@@ -105,6 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.white,
+        child: Icon(Icons.add),
       ),
     );
   }
