@@ -21,6 +21,57 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _editUser(UsersResponse user) {
+    // Mostrar dialog o navegar a pantalla de edición
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Editar Usuario'),
+        content: Text('¿Deseas editar a ${user.description}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Aquí puedes navegar a una pantalla de edición
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => EditUserScreen(user: user)));
+            },
+            child: Text('Editar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _deleteUser(UsersResponse user) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Eliminar Usuario'),
+        content: Text(
+          '¿Estás seguro de que deseas eliminar a ${user.description}?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              // Aquí implementas la lógica de eliminación
+              // context.read<HomeViewModel>().deleteUser(user);
+            },
+            child: Text('Eliminar', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text('Error: ${vm.error}'),
                   ElevatedButton(
                     onPressed: () => vm.fetchUsers(),
-                    child: Text('Reintentar'),
+                    child: Text("Reintentar"),
                   ),
                 ],
               ),
@@ -58,30 +109,56 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  GestureDetector itemList(UsersResponse user) => GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SearchUserMap(model: user)),
-      );
+  Dismissible itemList(UsersResponse user) => Dismissible(
+    key: Key(user.id.toString()),
+    direction: DismissDirection.horizontal,
+    confirmDismiss: (direction) async {
+      return false;
     },
-    child: Card(
-      child: ListTile(
-        leading: Image.network(
-          user.photoUrl,
-          width: 60,
-          height: 60,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              width: 60,
-              height: 60,
-              color: Colors.grey,
-              child: Icon(Icons.person, color: Colors.white),
-            );
-          },
+    background: Container(
+      color: Colors.green,
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.only(left: 20),
+      child: Icon(Icons.edit, color: Colors.white, size: 30),
+    ),
+    secondaryBackground: Container(
+      color: Colors.red,
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.only(right: 20),
+      child: Icon(Icons.delete, color: Colors.white, size: 30),
+    ),
+    onDismissed: (direction) {
+      if (direction == DismissDirection.startToEnd) {
+        _editUser(user);
+      } else if (direction == DismissDirection.endToStart) {
+        _deleteUser(user);
+      }
+    },
+    child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SearchUserMap(model: user)),
+        );
+      },
+      child: Card(
+        child: ListTile(
+          leading: Image.network(
+            user.photoUrl,
+            width: 60,
+            height: 60,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                width: 60,
+                height: 60,
+                color: Colors.grey,
+                child: Icon(Icons.person, color: Colors.white),
+              );
+            },
+          ),
+          title: Text(user.description),
+          subtitle: Text(user.locationDescription),
         ),
-        title: Text(user.description),
-        subtitle: Text(user.locationDescription),
       ),
     ),
   );
