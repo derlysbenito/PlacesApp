@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_test/data/datasource/auth_service.dart';
 import 'package:technical_test/presentation/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Login exitoso")));
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
@@ -26,6 +27,19 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Credenciales incorrectas")));
+    }
+  }
+
+  void _loginGoogle() async {
+    final loginGoogleStatus = await AuthService().signInWithGoogle();
+    if (!mounted) return;
+    if (loginGoogleStatus != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } else {
+      print('Login cancelado o falló');
     }
   }
 
@@ -69,6 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _submit,
                       child: Text("Iniciar Sesión"),
                     ),
+              SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _loginGoogle,
+                child: Text("Login Google"),
+              ),
             ],
           ),
         ),

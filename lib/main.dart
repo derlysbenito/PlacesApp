@@ -5,8 +5,12 @@ import 'package:technical_test/domain/repositories/user_repository.dart';
 import 'package:technical_test/domain/useCase/user_use_case.dart';
 import 'package:technical_test/presentation/home/home_view_model.dart';
 import 'package:technical_test/presentation/login/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MainApp());
 }
 

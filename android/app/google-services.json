@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "847357302431",
+    "project_id": "pruebatech-a089d",
+    "storage_bucket": "pruebatech-a089d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847357302431:android:8911a344a7fde207ec34aa",
+        "android_client_info": {
+          "package_name": "com.example.technical_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847357302431-k7ninh9tbne37b1ujsciglt2js5dvshp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvzptWybO6KhaIIlkA3dpCE4HO1xeh7Z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847357302431-k7ninh9tbne37b1ujsciglt2js5dvshp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "847357302431-00sl23cos6300bmhgj8a7fbo1l3ohr1d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.technicalTest"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
